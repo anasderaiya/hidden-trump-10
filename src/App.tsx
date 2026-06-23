@@ -259,12 +259,22 @@ export default function App() {
       setRankName(player.rankName);
       setCardBack(player.cardBack);
       setTableSkin(player.tableSkin);
+
+      // Auto-rejoin last active room if it exists in local storage
+      const savedRoomId = localStorage.getItem('ht10_active_room_id');
+      if (savedRoomId) {
+        socketInstance.emit('room:join', {
+          roomId: savedRoomId,
+          playerProfile: player
+        });
+      }
     });
 
     // Handle Room Lobby updates
     socketInstance.on('room:updated', ({ room: updatedRoom }: { room: any }) => {
       setRoom(updatedRoom);
       setActiveRoomId(updatedRoom.id);
+      localStorage.setItem('ht10_active_room_id', updatedRoom.id);
       
       // Separate hands and normal profiles
       if (updatedRoom.hands) {
@@ -317,6 +327,14 @@ export default function App() {
     // Game Errors alerts
     socketInstance.on('game:error', ({ message }: { message: string }) => {
       triggerToast(message);
+    });
+
+    // Room Errors alerts
+    socketInstance.on('room:error', ({ message }: { message: string }) => {
+      triggerToast(message);
+      setActiveRoomId(null);
+      localStorage.removeItem('ht10_active_room_id');
+      setCurrentScreen('HOME');
     });
 
     // Interactive custom Chat streams + floating bubble triggers
@@ -451,6 +469,7 @@ export default function App() {
     socket.emit('room:leave');
     setRoom(null);
     setActiveRoomId(null);
+    localStorage.removeItem('ht10_active_room_id');
     setChatMessages([]);
     setCurrentScreen('HOME');
   };
@@ -581,7 +600,7 @@ export default function App() {
       </header>
 
       {/* Main Container with dynamic screens */}
-      <main className="flex-1 flex flex-col relative w-full max-w-7xl mx-auto px-4 py-4 sm:py-6">
+      <main className="flex-1 flex flex-col relative w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
         
         {/* Alerts / Error Toasts */}
         {toastMessage && (
@@ -1163,14 +1182,14 @@ export default function App() {
               {/* Score trackers bar */}
               <ScoreBoard gameState={room.gameState} localPlayerTeam={room.players.find(p => p.id === userId)?.team} />
 
-              <div className="flex-1 flex flex-col lg:flex-row gap-4 items-stretch min-h-[460px]">
+              <div className="flex-1 flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch min-h-[360px] sm:min-h-[460px]">
                 
                 {/* 5a. Interactive Card Table Area */}
-                <div className={`flex-1 rounded-3xl border-2 shadow-2xl relative flex flex-col justify-between p-3 sm:p-5 overflow-hidden border-slate-800/80 ${tableSkins[tableSkin]?.class || 'felt-green'}`}>
+                <div className={`flex-1 rounded-2xl sm:rounded-3xl border-2 shadow-2xl relative flex flex-col justify-between p-2 sm:p-5 overflow-hidden border-slate-800/80 ${tableSkins[tableSkin]?.class || 'felt-green'}`}>
                   
                   {/* Glass circle inner design */}
-                  <div className={`absolute inset-12 rounded-full border-2 border-white/5 pointer-events-none flex items-center justify-center ${tableSkins[tableSkin]?.circle}`}>
-                    <span className="text-white/2 font-black text-6xl select-none font-sans uppercase tracking-widest">HT10</span>
+                  <div className={`absolute inset-4 sm:inset-12 rounded-full border-2 border-white/5 pointer-events-none flex items-center justify-center ${tableSkins[tableSkin]?.circle}`}>
+                    <span className="text-white/2 font-black text-4xl sm:text-6xl select-none font-sans uppercase tracking-widest">HT10</span>
                   </div>
 
                   {/* Top bar header inside board (hidden card slot & active trump) */}
@@ -1287,7 +1306,7 @@ export default function App() {
                   {/* ======================================================== */}
                   {/* CENTRAL GAMEPLAY TRICK PILE DISCARDS AREA */}
                   {/* ======================================================== */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-56 md:h-56 rounded-full border border-white/5 flex items-center justify-center bg-radial from-neutral-900/40 to-transparent pointer-events-none z-10">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full border border-white/5 flex items-center justify-center bg-radial from-neutral-900/40 to-transparent pointer-events-none z-10">
                     
                     {/* Centered trick cards laid down */}
                     <AnimatePresence>
@@ -1297,20 +1316,20 @@ export default function App() {
                         const localPos = localPlayer ? localPlayer.position || 0 : 0;
                         const clientOffset = (play.position - localPos + 4) % 4;
 
-                        // Position card offset styles inside central ring
+                        // Position card offset styles inside central ring (responsive sizing)
                         let posStyles = "";
                         switch (clientOffset) {
                           case 0: // Bottom client card played
-                            posStyles = "bottom-2.5 left-1/2 -translate-x-1/2 rotate-0";
+                            posStyles = "bottom-1 sm:bottom-2.5 left-1/2 -translate-x-1/2 rotate-0 scale-75 sm:scale-100";
                             break;
                           case 1: // Right opponent card played
-                            posStyles = "right-2.5 top-1/2 -translate-y-1/2 -rotate-12";
+                            posStyles = "right-1 sm:right-2.5 top-1/2 -translate-y-1/2 -rotate-12 scale-75 sm:scale-100";
                             break;
                           case 2: // Top mate card played
-                            posStyles = "top-2.5 left-1/2 -translate-x-1/2 rotate-180";
+                            posStyles = "top-1 sm:top-2.5 left-1/2 -translate-x-1/2 rotate-180 scale-75 sm:scale-100";
                             break;
                           case 3: // Left opponent card played
-                            posStyles = "left-2.5 top-1/2 -translate-y-1/2 rotate-12";
+                            posStyles = "left-1 sm:left-2.5 top-1/2 -translate-y-1/2 rotate-12 scale-75 sm:scale-100";
                             break;
                         }
 

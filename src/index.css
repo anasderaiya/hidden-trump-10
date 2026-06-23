@@ -81,4 +81,27 @@
   }
 }
 
+/* Mobile landscape / short-screen heights viewport locking optimizations */
+@media (max-height: 580px) {
+  /* Force hide the desktop-style chat sidebar */
+  .chat-sidebar-container {
+    display: none !important;
+  }
+  
+  /* Shrink scoreboard layout further */
+  #game-score-board {
+    padding: 0.15rem 0.5rem !important;
+  }
+  
+  /* Scale down central board trick pile and card items */
+  .central-trick-area {
+    width: 6.5rem !important;
+    height: 6.5rem !important;
+  }
+  
+  .central-played-card {
+    transform: scale(0.6) !important;
+  }
+}
+
 

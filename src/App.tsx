@@ -572,7 +572,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-950/20 font-sans text-slate-100 overflow-x-hidden flex flex-col selection:bg-blue-500 selection:text-white">
+    <div className={`relative bg-slate-950/20 font-sans text-slate-100 overflow-x-hidden flex flex-col selection:bg-blue-500 selection:text-white ${currentScreen === 'GAMEPLAY' ? 'h-[100dvh] overflow-hidden' : 'min-h-screen'}`}>
       
       {/* Portrait rotation blocker for mobile */}
       <div className="portrait-only-overlay fixed inset-0 z-[9999] hidden flex-col items-center justify-center bg-slate-950 text-center p-6 select-none font-sans">
@@ -1195,10 +1195,10 @@ export default function App() {
               {/* Score trackers bar */}
               <ScoreBoard gameState={room.gameState} localPlayerTeam={room.players.find(p => p.id === userId)?.team} />
 
-              <div className="flex-1 flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch min-h-[360px] sm:min-h-[460px]">
+              <div className="flex-1 flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch min-h-0">
                 
                 {/* 5a. Interactive Card Table Area */}
-                <div className={`flex-1 rounded-2xl sm:rounded-3xl border-2 shadow-2xl relative flex flex-col justify-between p-2 sm:p-5 overflow-hidden border-slate-800/80 ${tableSkins[tableSkin]?.class || 'felt-green'}`}>
+                <div className={`flex-1 rounded-2xl sm:rounded-3xl border-2 shadow-2xl relative flex flex-col justify-between p-2 sm:p-3 overflow-hidden border-slate-800/80 ${tableSkins[tableSkin]?.class || 'felt-green'} min-h-0`}>
                   
                   {/* Glass circle inner design */}
                   <div className={`absolute inset-4 sm:inset-12 rounded-full border-2 border-white/5 pointer-events-none flex items-center justify-center ${tableSkins[tableSkin]?.circle}`}>
@@ -1329,7 +1329,7 @@ export default function App() {
                   {/* ======================================================== */}
                   {/* CENTRAL GAMEPLAY TRICK PILE DISCARDS AREA */}
                   {/* ======================================================== */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full border border-white/5 flex items-center justify-center bg-radial from-neutral-900/40 to-transparent pointer-events-none z-10">
+                  <div className="central-trick-area absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full border border-white/5 flex items-center justify-center bg-radial from-neutral-900/40 to-transparent pointer-events-none z-10">
                     
                     {/* Centered trick cards laid down */}
                     <AnimatePresence>
@@ -1362,7 +1362,7 @@ export default function App() {
                             initial={{ scale: 0.3, opacity: 0, y: 15 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.8, opacity: 0 }}
-                            className={`absolute pointer-events-auto ${posStyles} z-20`}
+                            className={`absolute pointer-events-auto ${posStyles} z-20 central-played-card`}
                           >
                             <CardItem card={play.card} faceUp={true} playable={false} />
                             <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-neutral-950/80 text-[8px] font-black text-neutral-300 border border-white/5 px-1 py-0.1 rounded uppercase truncate max-w-[60px]">
@@ -1440,7 +1440,7 @@ export default function App() {
                 </div>
 
                 {/* 5b. Chat streams alongside Gameplay table */}
-                <div className="hidden lg:flex w-full lg:w-80 h-[280px] lg:h-auto flex-col justify-between">
+                <div className="chat-sidebar-container hidden lg:flex w-full lg:w-80 h-[280px] lg:h-auto flex-col justify-between">
                   <div className="flex-1">
                     <ChatBoard messages={chatMessages} onSendMessage={handleSendMessage} />
                   </div>

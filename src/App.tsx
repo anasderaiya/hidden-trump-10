@@ -583,35 +583,37 @@ export default function App() {
         </p>
       </div>
 
-      <div className="app-main-content flex-1 flex flex-col">
+      <div className={`app-main-content flex-1 flex flex-col ${currentScreen === 'GAMEPLAY' ? 'h-[100dvh] overflow-hidden' : ''}`}>
         {/* Global Status Banner (glassmorphic heading) */}
-        <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 px-6 py-3.5 flex items-center justify-between z-50 shadow-lg">
-        <div className="flex items-center gap-2.5">
-          <Sparkles className="text-blue-400 animate-pulse w-5 h-5 sm:w-6 sm:h-6 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
-          <h1 className="text-sm sm:text-lg font-black tracking-widest bg-gradient-to-r from-blue-400 via-sky-305 to-sky-500 bg-clip-text text-transparent uppercase font-sans">
-            Hidden Trump 10
-          </h1>
-        </div>
+        {currentScreen !== 'GAMEPLAY' && (
+          <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 px-6 py-3.5 flex items-center justify-between z-50 shadow-lg">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="text-blue-400 animate-pulse w-5 h-5 sm:w-6 sm:h-6 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
+              <h1 className="text-sm sm:text-lg font-black tracking-widest bg-gradient-to-r from-blue-400 via-sky-305 to-sky-500 bg-clip-text text-transparent uppercase font-sans">
+                Hidden Trump 10
+              </h1>
+            </div>
 
-        <div className="flex items-center gap-4">
-          {/* Connection badge */}
-          <span className={`text-[10px] font-extrabold px-3 py-1 rounded-full flex items-center gap-1.5 border ${isConnected ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-rose-500/10 border-rose-500/20 text-rose-400'}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`} />
-            {isConnected ? "MULTIPLAYER ONLINE" : "OFFLINE CONNECTING"}
-          </span>
+            <div className="flex items-center gap-4">
+              {/* Connection badge */}
+              <span className={`text-[10px] font-extrabold px-3 py-1 rounded-full flex items-center gap-1.5 border ${isConnected ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-rose-500/10 border-rose-500/20 text-rose-400'}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}`} />
+                {isConnected ? "MULTIPLAYER ONLINE" : "OFFLINE CONNECTING"}
+              </span>
 
-          {/* Audio controller */}
-          <button
-            onClick={toggleSfx}
-            className="text-slate-400 hover:text-white transition-all cursor-pointer p-1.5 rounded-xl bg-slate-900/50 hover:bg-slate-800 border border-slate-800/80"
-          >
-            {sfxToggle ? <Volume2 size={16} /> : <VolumeX size={16} />}
-          </button>
-        </div>
-      </header>
+              {/* Audio controller */}
+              <button
+                onClick={toggleSfx}
+                className="text-slate-400 hover:text-white transition-all cursor-pointer p-1.5 rounded-xl bg-slate-900/50 hover:bg-slate-800 border border-slate-800/80"
+              >
+                {sfxToggle ? <Volume2 size={16} /> : <VolumeX size={16} />}
+              </button>
+            </div>
+          </header>
+        )}
 
-      {/* Main Container with dynamic screens */}
-      <main className="flex-1 flex flex-col relative w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
+        {/* Main Container with dynamic screens */}
+        <main className={`flex-1 flex flex-col relative w-full max-w-7xl mx-auto min-h-0 ${currentScreen === 'GAMEPLAY' ? 'h-[100dvh] overflow-hidden p-1.5 sm:p-2.5' : 'px-2 sm:px-4 py-2 sm:py-4'}`}>
         
         {/* Alerts / Error Toasts */}
         {toastMessage && (
@@ -1457,8 +1459,8 @@ export default function App() {
               </div>
 
               {/* Hand cards Area (Client's active row of 12-13 cards) */}
-              <div className="bg-slate-900 border border-slate-800/90 p-4 sm:p-5 rounded-3xl relative overflow-hidden flex flex-col z-30 shadow-2xl">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3.5 px-1">
+              <div className="bg-slate-900 border border-slate-800/90 p-1 sm:p-3 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col z-30 shadow-2xl min-h-0">
+                <div className="hidden sm:flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 px-1">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                     Your Cards Hand (Total: {(hands[userId] || []).length})
                   </span>
@@ -1470,7 +1472,7 @@ export default function App() {
                 </div>
 
                 {/* Horizontal list of hand cards */}
-                <div className="flex gap-2.5 overflow-x-auto pb-4 pt-1 justify-start md:justify-center scrollbar-thin scrollbar-thumb-slate-800">
+                <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5 justify-start md:justify-center scrollbar-thin scrollbar-thumb-slate-800">
                   {(hands[userId] || []).length === 0 ? (
                     <div className="text-center font-mono text-xs text-neutral-500 py-4 w-full">
                       Dealing cards...

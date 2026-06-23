@@ -1459,8 +1459,8 @@ export default function App() {
               </div>
 
               {/* Hand cards Area (Client's active row of 12-13 cards) */}
-              <div className="bg-slate-900 border border-slate-800/90 p-1 sm:p-3 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col z-30 shadow-2xl min-h-0">
-                <div className="hidden sm:flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 px-1">
+              <div className="bg-slate-900 border border-slate-800/90 p-1 sm:p-3 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col z-30 shadow-2xl min-h-0 flex-shrink-0">
+                <div className="hidden lg:flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2 px-1">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                     Your Cards Hand (Total: {(hands[userId] || []).length})
                   </span>
@@ -1621,9 +1621,11 @@ export default function App() {
       </main>
 
       {/* Humble visual credit details */}
-      <footer className="py-4 border-t border-slate-900 bg-slate-950/10 text-center text-[10px] text-slate-500 font-mono">
-        Hidden Trump 10 Multiplayer Board • Crafted visually with React & Tailwind CSS
-      </footer>
+      {currentScreen !== 'GAMEPLAY' && (
+        <footer className="py-4 border-t border-slate-900 bg-slate-950/10 text-center text-[10px] text-slate-500 font-mono">
+          Hidden Trump 10 Multiplayer Board • Crafted visually with React & Tailwind CSS
+        </footer>
+      )}
       </div>
 
       {/* Mobile Chat Modal */}

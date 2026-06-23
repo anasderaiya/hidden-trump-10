@@ -93,14 +93,168 @@
     padding: 0.15rem 0.5rem !important;
   }
   
-  /* Scale down central board trick pile and card items */
+  /* Scale down scoreboard details */
+  #game-score-board .flex-row.sm\:flex-col {
+    flex-direction: row !important;
+    padding: 0.15rem 0.35rem !important;
+    gap: 0.25rem !important;
+  }
+  #game-score-board .text-sm.sm\:text-3xl {
+    font-size: 0.95rem !important;
+  }
+  #game-score-board .text-xxs,
+  #game-score-board .text-\[8px\].sm\:text-\[10px\] {
+    font-size: 0.6rem !important;
+    padding: 0.05rem 0.35rem !important;
+  }
+  #game-score-board .w-9.sm\:w-16 {
+    width: 2rem !important;
+    height: 1.35rem !important;
+    border-radius: 0.375rem !important;
+    padding: 0.1rem !important;
+  }
+  #game-score-board .w-9.sm\:w-16 span {
+    font-size: 0.65rem !important;
+  }
+
+  /* Scale down player seats */
+  div[id^="player-seat-"] {
+    padding: 0.15rem !important;
+  }
+  div[id^="player-seat-"] .w-10.sm\:w-16 {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    border-width: 2px !important;
+    font-size: 0.85rem !important;
+  }
+  div[id^="player-seat-"] .text-\[10px\].sm\:text-sm {
+    font-size: 0.65rem !important;
+  }
+  div[id^="player-seat-"] .text-\[8px\].sm\:text-\[10px\] {
+    font-size: 0.55rem !important;
+    padding: 0.05rem 0.25rem !important;
+  }
+  div[id^="player-seat-"] .text-\[8px\].sm\:text-\[9px\] {
+    font-size: 0.55rem !important;
+  }
+  div[id^="player-seat-"] .text-\[9px\].sm\:text-\[10px\] {
+    font-size: 0.6rem !important;
+  }
+  div[id^="player-seat-"] .w-5.h-5.sm\:w-6.sm\:h-6 {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    font-size: 0.6rem !important;
+  }
+
+  /* Scale down central board trick pile */
   .central-trick-area {
-    width: 6.5rem !important;
-    height: 6.5rem !important;
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+  .central-trick-area .text-xs {
+    font-size: 0.6rem !important;
+  }
+  .central-trick-area .text-\[9px\] {
+    font-size: 0.5rem !important;
+  }
+
+  /* Scale down cards in hand and in trick pile */
+  .ht10-card {
+    width: 2.5rem !important;
+    height: 3.6rem !important;
+    padding: 0.15rem !important;
+    border-radius: 0.375rem !important;
+    border-width: 1px !important;
+  }
+
+  /* Adjust typography inside scaled down cards */
+  .ht10-card span.text-xs.sm\:text-sm.md\:text-base {
+    font-size: 0.65rem !important;
+  }
+  .ht10-card span.text-xxs.sm\:text-xs {
+    font-size: 0.55rem !important;
+  }
+  .ht10-card .scale-110, .ht10-card .scale-125 {
+    transform: scale(0.8) !important;
+  }
+  .ht10-card span.text-lg.sm\:text-xl.md\:text-3xl {
+    font-size: 0.85rem !important;
+  }
+  .ht10-card span.text-white\/40 {
+    font-size: 0.85rem !important;
+  }
+
+  /* Reduce gap in card hand row */
+  div.bg-slate-900.border-slate-800\/90 {
+    padding: 0.25rem !important;
+    margin-top: 0.25rem !important;
+  }
+  div.bg-slate-900.border-slate-800\/90 div.flex.gap-2 {
+    gap: 0.25rem !important;
+  }
+
+  /* Reduce padding/gaps on the main game content to save height */
+  main.h-\[100dvh\] {
+    padding: 0.25rem !important;
+    gap: 0.25rem !important;
+  }
+  div.flex-1.flex.flex-col.gap-4.py-1 {
+    gap: 0.25rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  div.flex-1.flex.flex-col.lg\:flex-row.gap-3.sm\:gap-4 {
+    gap: 0.25rem !important;
+  }
+
+  /* Table panel padding */
+  .felt-green, .felt-blue, .felt-wood, .felt-red {
+    padding: 0.25rem !important;
   }
   
-  .central-played-card {
-    transform: scale(0.6) !important;
+  /* Inner table circle */
+  .absolute.inset-4.sm\:inset-12 {
+    inset: 1.5rem !important;
+  }
+  .absolute.inset-4.sm\:inset-12 span {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Table top bar inside gameplay */
+  .flex.items-center.justify-between.bg-slate-950\/70 {
+    padding: 0.15rem 0.5rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Secret / revealed Trump indicator slot card */
+  .w-10.h-14 {
+    width: 1.75rem !important;
+    height: 2.5rem !important;
+  }
+  .w-10.h-14 span {
+    font-size: 0.55rem !important;
+  }
+  .w-10.h-14 span.text-base {
+    font-size: 0.75rem !important;
+  }
+  .absolute.-bottom-1.-right-1 {
+    font-size: 0.5rem !important;
+    padding: 0.05rem 0.15rem !important;
+  }
+  
+  /* Operational controls pointer */
+  .bg-slate-950\/90.backdrop-blur-md.px-4.py-2 {
+    padding: 0.15rem 0.5rem !important;
+  }
+  .bg-slate-950\/90.backdrop-blur-md.px-4.py-2 span {
+    font-size: 0.6rem !important;
+  }
+  
+  /* Trump secret card reveal button positioning */
+  #btn-reveal-trump {
+    margin-top: 2rem !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 0.75rem !important;
   }
 }
 

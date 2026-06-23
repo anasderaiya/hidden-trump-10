@@ -52,7 +52,7 @@ export const CardItem: React.FC<CardItemProps> = ({
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ delay: index * 0.02, type: 'spring', damping: 15 }}
-        className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-xl border-2 flex flex-col justify-between p-1 select-none shadow-md bg-gradient-to-br ${selectedBackStyle} cursor-not-allowed ${className}`}
+        className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-xl border-2 flex flex-col justify-between p-1 select-none shadow-md bg-gradient-to-br ${selectedBackStyle} cursor-not-allowed ht10-card ${className}`}
       >
         <div className="absolute inset-1.5 border border-dashed border-white/20 rounded-lg flex items-center justify-center">
           {/* Symmetrical logo/symbol */}
@@ -73,7 +73,7 @@ export const CardItem: React.FC<CardItemProps> = ({
       whileTap={playable ? { scale: 0.95 } : {}}
       disabled={!playable}
       onClick={onClick}
-      className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-xl bg-white border-2 flex flex-col justify-between p-1.5 select-none shadow-md cursor-pointer transition-shadow duration-200
+      className={`relative w-14 h-20 sm:w-16 sm:h-24 md:w-20 md:h-28 rounded-xl bg-white border-2 flex flex-col justify-between p-1.5 select-none shadow-md cursor-pointer transition-shadow duration-200 ht10-card
         ${playable ? 'border-yellow-400 shadow-lg shadow-yellow-100 ring-2 ring-yellow-400/30' : 'border-neutral-200'}
         ${!playable && onClick ? 'opacity-60 saturate-50' : 'opacity-100'} 
         ${className}`}

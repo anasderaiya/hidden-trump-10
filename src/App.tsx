@@ -173,6 +173,7 @@ export default function App() {
   // Real-time connections
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [isMobileChatOpen, setIsMobileChatOpen] = useState(false);
 
   // User Profile
   const [userId, setUserId] = useState("");
@@ -573,8 +574,18 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-slate-950/20 font-sans text-slate-100 overflow-x-hidden flex flex-col selection:bg-blue-500 selection:text-white">
       
-      {/* Global Status Banner (glassmorphic heading) */}
-      <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 px-6 py-3.5 flex items-center justify-between z-50 shadow-lg">
+      {/* Portrait rotation blocker for mobile */}
+      <div className="portrait-only-overlay fixed inset-0 z-[9999] hidden flex-col items-center justify-center bg-slate-950 text-center p-6 select-none font-sans">
+        <div className="text-6xl mb-4 animate-bounce">📱 🔄</div>
+        <h2 className="text-lg font-black text-white uppercase tracking-wider mb-2">Rotate Your Device</h2>
+        <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+          Please rotate your device to **Landscape (horizontal) mode** for the best fullscreen card playing experience.
+        </p>
+      </div>
+
+      <div className="app-main-content flex-1 flex flex-col">
+        {/* Global Status Banner (glassmorphic heading) */}
+        <header className="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 px-6 py-3.5 flex items-center justify-between z-50 shadow-lg">
         <div className="flex items-center gap-2.5">
           <Sparkles className="text-blue-400 animate-pulse w-5 h-5 sm:w-6 sm:h-6 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
           <h1 className="text-sm sm:text-lg font-black tracking-widest bg-gradient-to-r from-blue-400 via-sky-305 to-sky-500 bg-clip-text text-transparent uppercase font-sans">
@@ -1228,12 +1239,22 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Leading suit indicator */}
-                    <div className="text-right flex items-center gap-1.5">
-                      <span className="text-[10px] text-white/50 font-bold uppercase">Lead suit:</span>
-                      <span className={`text-base font-black ${room.gameState.leadSuit ? getSuitColor(room.gameState.leadSuit) : 'text-neutral-500'}`}>
-                        {room.gameState.leadSuit ? `${getSuitSymbol(room.gameState.leadSuit)} (${room.gameState.leadSuit})` : "None"}
-                      </span>
+                    {/* Leading suit indicator & Mobile Chat button */}
+                    <div className="text-right flex items-center gap-3">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] text-white/50 font-bold uppercase">Lead suit:</span>
+                        <span className={`text-base font-black ${room.gameState.leadSuit ? getSuitColor(room.gameState.leadSuit) : 'text-neutral-500'}`}>
+                          {room.gameState.leadSuit ? `${getSuitSymbol(room.gameState.leadSuit)} (${room.gameState.leadSuit})` : "None"}
+                        </span>
+                      </div>
+                      
+                      {/* Mobile Chat button */}
+                      <button 
+                        onClick={() => setIsMobileChatOpen(true)}
+                        className="lg:hidden bg-slate-900 hover:bg-slate-800 text-white px-2.5 py-1.5 rounded-xl border border-slate-800 text-[10px] font-black uppercase tracking-wider cursor-pointer z-30 flex items-center gap-1 shadow-md active:scale-95 transition-all"
+                      >
+                        💬 Chat
+                      </button>
                     </div>
                   </div>
 
@@ -1396,12 +1417,19 @@ export default function App() {
                         )}
                         
                         {/* Informative text pointer */}
-                        <div className="bg-slate-950/90 backdrop-blur-md px-4 py-2 border border-slate-800 rounded-full text-[10px] text-slate-350 font-bold uppercase tracking-wider shadow-lg">
+                        <div className="bg-slate-950/90 backdrop-blur-md px-4 py-2 border border-slate-800 rounded-full text-[10px] text-slate-350 font-bold uppercase tracking-wider shadow-lg flex flex-col items-center gap-1">
                           {room.gameState.currentTurnPos === room.players.find(p => p.id === userId)?.position ? (
                             <span className="text-blue-400 font-black tracking-widest animate-pulse">👉 Your turn! Play a valid card</span>
                           ) : (
                             <span className="font-sans">Waiting for Seat {room.gameState.currentTurnPos + 1} move...</span>
                           )}
+                          
+                          <button
+                            onClick={handleLeaveRoom}
+                            className="lg:hidden mt-1 text-red-400 hover:text-red-300 text-[8px] font-black uppercase tracking-widest cursor-pointer hover:underline"
+                          >
+                            Rage Quit Table
+                          </button>
                         </div>
                       </div>
                     )}
@@ -1410,7 +1438,7 @@ export default function App() {
                 </div>
 
                 {/* 5b. Chat streams alongside Gameplay table */}
-                <div className="w-full lg:w-80 h-[280px] lg:h-auto flex flex-col justify-between">
+                <div className="hidden lg:flex w-full lg:w-80 h-[280px] lg:h-auto flex-col justify-between">
                   <div className="flex-1">
                     <ChatBoard messages={chatMessages} onSendMessage={handleSendMessage} />
                   </div>
@@ -1594,6 +1622,41 @@ export default function App() {
       <footer className="py-4 border-t border-slate-900 bg-slate-950/10 text-center text-[10px] text-slate-500 font-mono">
         Hidden Trump 10 Multiplayer Board • Crafted visually with React & Tailwind CSS
       </footer>
+      </div>
+
+      {/* Mobile Chat Modal */}
+      <AnimatePresence>
+        {isMobileChatOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 lg:hidden"
+            onClick={() => setIsMobileChatOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              className="bg-slate-900 border-2 border-slate-800 w-full max-w-md h-[360px] rounded-3xl p-4 flex flex-col justify-between"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Table Chat</span>
+                <button 
+                  onClick={() => setIsMobileChatOpen(false)}
+                  className="text-slate-400 hover:text-white font-bold text-xs cursor-pointer px-2.5 py-1 bg-slate-950/80 border border-slate-800/80 rounded-xl"
+                >
+                  ✕ Close
+                </button>
+              </div>
+              <div className="flex-1 min-h-0">
+                <ChatBoard messages={chatMessages} onSendMessage={handleSendMessage} />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

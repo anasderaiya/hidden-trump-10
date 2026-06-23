@@ -71,4 +71,14 @@
   box-shadow: 0 0 15px rgba(251,191,36,0.35);
 }
 
+/* Portrait orientation blocker for mobile/tablet screens */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .portrait-only-overlay {
+    display: flex !important;
+  }
+  .app-main-content {
+    display: none !important;
+  }
+}
+
 

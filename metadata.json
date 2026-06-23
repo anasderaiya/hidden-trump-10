@@ -1,0 +1,6 @@
+{
+  "name": "Hidden Trump 10",
+  "description": "A real-time multiplayer 2v2 trick-taking card game where the trump suit is determined by a hidden face-down card.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

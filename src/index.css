@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@405;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: #0c111d; /* Elegant Slate Charcoal Midnight */
+    background-image: radial-gradient(circle at 50% 50%, #111827 0%, #030712 100%);
+    color: #f8fafc;
+  }
+}
+
+.bg-radial {
+  background-image: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Custom card flip and slide effects */
+.felt-green {
+  background-color: #064e3b;
+  background-image: radial-gradient(circle, #047857 0%, #022c22 100%);
+}
+
+.felt-blue {
+  background-color: #0f172a;
+  background-image: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+}
+
+.felt-wood {
+  background-color: #451a03;
+  background-image: radial-gradient(circle, #78350f 0%, #451a03 100%);
+}
+
+.felt-red {
+  background-color: #7f1d1d;
+  background-image: radial-gradient(circle, #991b1b 0%, #450a0a 100%);
+}
+
+/* Table surface micro texture overlay */
+.table-texture {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Vibrant tactile poker-style buttons styling */
+.btn-vibrant-tactile {
+  background: linear-gradient(to top, #2563eb, #60a5fa);
+  border-bottom: 4px solid #1d4ed8;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 15px rgba(37,99,235,0.4);
+  transition: transform 0.1s, border-bottom-width 0.1s;
+}
+
+.btn-vibrant-tactile:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-vibrant-tactile:active {
+  transform: translateY(2px);
+  border-bottom-width: 0.5px;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.2);
+}
+
+.glow-card-active {
+  box-shadow: 0 0 15px rgba(251,191,36,0.35);
+}
+
+
